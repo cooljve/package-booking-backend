@@ -10,13 +10,16 @@ public class Package {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int orderId;
 
-  @Column(unique = true)
+  @Column(nullable = false, unique = true)
   private String orderNumber;
 
+  @Column(nullable = false)
   private String receiver;
 
+  @Column(nullable = false)
   private String phone;
 
+  @Column(nullable = false)
   private String status;
 
   @Temporal(TemporalType.TIMESTAMP)

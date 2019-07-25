@@ -1,6 +1,7 @@
 package com.oocl.packagebooking.service;
 
 import com.oocl.packagebooking.exception.PackageHasAlreadyBeenTakenException;
+import com.oocl.packagebooking.exception.PackageIsExistedException;
 import com.oocl.packagebooking.exception.PackageNotExistedException;
 import com.oocl.packagebooking.exception.TimeIsNotAllowException;
 import com.oocl.packagebooking.model.Package;
@@ -23,7 +24,12 @@ public class PackageService {
   }
 
   public Package add(Package pack) {
+    Package aPackage = packageRepository.findByOrderNumber(pack.getOrderNumber());
+    if (aPackage != null) {
+      throw new PackageIsExistedException();
+    }
     return packageRepository.save(pack);
+
   }
 
   public List<Package> getPackagesByStatus(String status) {
