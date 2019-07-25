@@ -1,6 +1,7 @@
 package com.oocl.packagebooking.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oocl.packagebooking.model.Package;
 import com.oocl.packagebooking.service.PackageService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,21 @@ class PackageControllerTest {
 
     result.andExpect(status().isOk());
     verify(service).getAll();
+  }
+
+  @Test
+  void should_add_package() throws Exception {
+    Package pack = new Package();
+    ObjectMapper mapper = new ObjectMapper();
+    String packJson = mapper.writeValueAsString(pack);
+    when(service.add(any())).thenReturn(null);
+
+    ResultActions result = mvc.perform(post("/manage/packages")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(packJson));
+
+    result.andExpect(status().isOk());
+    verify(service).add(any());
   }
 
 }

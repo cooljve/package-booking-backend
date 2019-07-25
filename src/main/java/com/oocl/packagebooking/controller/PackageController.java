@@ -3,9 +3,7 @@ package com.oocl.packagebooking.controller;
 import com.oocl.packagebooking.model.Package;
 import com.oocl.packagebooking.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +17,10 @@ public class PackageController {
   @GetMapping
   public List<Package> getAllPackages(){
     return service.getAll();
+  }
+
+  @PostMapping
+  public Package addPackage(@RequestBody Package pack){
+    return service.add(pack);
   }
 }
