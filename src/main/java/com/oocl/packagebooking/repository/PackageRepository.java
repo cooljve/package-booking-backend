@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface PackageRepository extends JpaRepository<Package,Integer> {
   List<Package> findByStatus(String status);
+
+  Package findByOrderNumber(String orderNumber);
 }
 

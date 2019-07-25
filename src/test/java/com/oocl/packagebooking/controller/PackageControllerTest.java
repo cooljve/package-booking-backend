@@ -13,15 +13,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -65,6 +65,20 @@ class PackageControllerTest {
 
     result.andExpect(status().isOk());
     verify(service).updatePackage(anyInt(), any());
+  }
+
+  @Test
+  void should_patch_package() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    String packJson = mapper.writeValueAsString(new Date());
+
+    String orderNumber = "123456";
+    ResultActions result = mvc.perform(patch("/manage/packages/{orderNumber}", orderNumber)
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(packJson));
+
+    result.andExpect(status().isOk());
+    verify(service).updatePackageWithBookDate(anyString(),any());
   }
 
   @Test

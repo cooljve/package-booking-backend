@@ -5,6 +5,7 @@ import com.oocl.packagebooking.repository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,5 +31,11 @@ public class PackageService {
     if (aPackage.isPresent()) {
       packageRepository.save(pack);
     }
+  }
+
+  public void updatePackageWithBookDate(String orderNumber, Date bootDate) {
+    Package aPackage = packageRepository.findByOrderNumber(orderNumber);
+    aPackage.setBookDate(bootDate);
+    packageRepository.save(aPackage);
   }
 }
