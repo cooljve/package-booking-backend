@@ -19,6 +19,11 @@ public class PackageController {
     return service.getAll();
   }
 
+  @GetMapping(params = "status")
+  public List<Package> getPackagesByStatus(@RequestParam String status){
+    return service.getPackagesByStatus(status);
+  }
+
   @PostMapping
   public Package addPackage(@RequestBody Package pack){
     return service.add(pack);

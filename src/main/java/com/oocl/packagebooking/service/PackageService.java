@@ -19,4 +19,8 @@ public class PackageService {
   public Package add(Package pack) {
     return packageRepository.save(pack);
   }
+
+  public List<Package> getPackagesByStatus(String status) {
+    return packageRepository.findByStatus(status);
+  }
 }

@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,6 +39,16 @@ class PackageControllerTest {
 
     result.andExpect(status().isOk());
     verify(service).getAll();
+  }
+
+  @Test
+  void should_get_not_take_packages() throws Exception {
+    when(service.getPackagesByStatus(anyString())).thenReturn(null);
+
+    ResultActions result = mvc.perform(get("/manage/packages?status=notTake"));
+
+    result.andExpect(status().isOk());
+    verify(service).getPackagesByStatus(anyString());
   }
 
   @Test
