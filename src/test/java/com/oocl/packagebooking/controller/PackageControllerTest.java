@@ -15,11 +15,13 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -49,6 +51,20 @@ class PackageControllerTest {
 
     result.andExpect(status().isOk());
     verify(service).getPackagesByStatus(anyString());
+  }
+
+  @Test
+  void should_update_package() throws Exception {
+    Package pack = new Package();
+    ObjectMapper mapper = new ObjectMapper();
+    String packJson = mapper.writeValueAsString(pack);
+
+    ResultActions result = mvc.perform(put("/manage/packages/{id}",1)
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(packJson));
+
+    result.andExpect(status().isOk());
+    verify(service).updatePackage(anyInt(), any());
   }
 
   @Test

@@ -28,4 +28,8 @@ public class PackageController {
   public Package addPackage(@RequestBody Package pack){
     return service.add(pack);
   }
+  @PutMapping("{id}")
+  public void updatePackage(@PathVariable int id,@RequestBody Package pack) {
+    service.updatePackage(id, pack);
+  }
 }

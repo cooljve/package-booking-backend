@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PackageService {
@@ -22,5 +23,12 @@ public class PackageService {
 
   public List<Package> getPackagesByStatus(String status) {
     return packageRepository.findByStatus(status);
+  }
+
+  public void updatePackage(int id, Package pack) {
+    Optional<Package> aPackage = packageRepository.findById(id);
+    if (aPackage.isPresent()) {
+      packageRepository.save(pack);
+    }
   }
 }
