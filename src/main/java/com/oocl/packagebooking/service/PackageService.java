@@ -23,12 +23,20 @@ public class PackageService {
   }
 
   public List<Package> getPackagesByStatus(String status) {
+    if (status.equals("notTake")) {
+      status = "未取件";
+    } else if (status.equals("take")) {
+      status = "已取件";
+    } else if (status.equals("booked")) {
+      status = "已预约";
+    }
     return packageRepository.findByStatus(status);
   }
 
-  public void updatePackage(int id, Package pack) {
+  public void confirmReceived(int id, Package pack) {
     Optional<Package> aPackage = packageRepository.findById(id);
     if (aPackage.isPresent()) {
+      pack.setStatus("已取件");
       packageRepository.save(pack);
     }
   }

@@ -31,8 +31,8 @@ public class PackageController {
   }
 
   @PutMapping("{id}")
-  public void updatePackage(@PathVariable int id, @RequestBody Package pack) {
-    service.updatePackage(id, pack);
+  public void confirmReceived(@PathVariable int id, @RequestBody Package pack) {
+    service.confirmReceived(id, pack);
   }
 
   @PatchMapping("{orderNumber}")

@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -64,7 +63,7 @@ class PackageControllerTest {
     .content(packJson));
 
     result.andExpect(status().isOk());
-    verify(service).updatePackage(anyInt(), any());
+    verify(service).confirmReceived(anyInt(), any());
   }
 
   @Test
