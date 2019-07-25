@@ -9,7 +9,9 @@ spring:
     url:  jdbc:h2:file:./h2/org2
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+  flyway:
+    enabled: true
   h2:
     console:
       enabled: true
