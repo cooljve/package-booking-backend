@@ -1,10 +1,14 @@
 package com.oocl.packagebooking.service;
 
+import com.oocl.packagebooking.exception.PackageHasAlreadyBeenTakenException;
+import com.oocl.packagebooking.exception.PackageNotExistedException;
+import com.oocl.packagebooking.exception.TimeIsNotAllowException;
 import com.oocl.packagebooking.model.Package;
 import com.oocl.packagebooking.repository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +45,29 @@ public class PackageService {
     }
   }
 
-  public void updatePackageWithBookDate(String orderNumber, Date bootDate) {
+  public void updatePackageWithBookDate(String orderNumber, Date bookDate) {
+    if (!isValidTime(bookDate)) {
+      throw new TimeIsNotAllowException();
+    }
     Package aPackage = packageRepository.findByOrderNumber(orderNumber);
-    aPackage.setBookDate(bootDate);
+    if (aPackage == null) {
+      throw new PackageNotExistedException();
+    }
+    if (aPackage.getStatus().equals("已取件")) {
+      throw new PackageHasAlreadyBeenTakenException();
+    }
+    aPackage.setStatus("已预约");
+    aPackage.setBookDate(bookDate);
     packageRepository.save(aPackage);
+  }
+
+  private boolean isValidTime(Date bookDate) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(bookDate);
+    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+    if (!(hour >= 9 && hour <= 20)) {
+      return false;
+    }
+    return true;
   }
 }
